@@ -10,6 +10,7 @@ class GroupNodeTile extends StatelessWidget {
     required this.node,
     required this.onToggle,
     required this.onToggleConcentrator,
+    required this.onConnectConcentrator,
     required this.onAddConcentrator,
     required this.onAddMeter,
     required this.onDeleteConcentrator,
@@ -20,6 +21,7 @@ class GroupNodeTile extends StatelessWidget {
   final GroupNode node;
   final VoidCallback onToggle;
   final void Function(int concentratorId) onToggleConcentrator;
+  final void Function(int concentratorId) onConnectConcentrator;
   final VoidCallback onAddConcentrator;
   final void Function(int concentratorId) onAddMeter;
   final void Function(int concentratorId) onDeleteConcentrator;
@@ -96,6 +98,8 @@ class GroupNodeTile extends StatelessWidget {
                         node: c,
                         onToggle: () =>
                             onToggleConcentrator(c.concentrator.id),
+                        onConnect: () =>
+                            onConnectConcentrator(c.concentrator.id),
                         onAddMeter: () => onAddMeter(c.concentrator.id),
                         onDeleteConcentrator: () =>
                             onDeleteConcentrator(c.concentrator.id),

@@ -10,6 +10,7 @@ class ConcentratorNodeTile extends StatelessWidget {
     super.key,
     required this.node,
     required this.onToggle,
+    required this.onConnect,
     required this.onAddMeter,
     required this.onDeleteConcentrator,
     required this.onMeterTap,
@@ -18,6 +19,7 @@ class ConcentratorNodeTile extends StatelessWidget {
 
   final ConcentratorNode node;
   final VoidCallback onToggle;
+  final VoidCallback onConnect;
   final VoidCallback onAddMeter;
   final VoidCallback onDeleteConcentrator;
   final void Function(Meter meter) onMeterTap;
@@ -90,6 +92,7 @@ class ConcentratorNodeTile extends StatelessWidget {
                 ),
                 const SizedBox(width: 4),
                 _ConcentratorMenu(
+                  onConnect: onConnect,
                   onAddMeter: onAddMeter,
                   onDelete: onDeleteConcentrator,
                 ),
@@ -146,7 +149,12 @@ class _MeterCountBadge extends StatelessWidget {
 }
 
 class _ConcentratorMenu extends StatelessWidget {
-  const _ConcentratorMenu({required this.onAddMeter, required this.onDelete});
+  const _ConcentratorMenu({
+    required this.onConnect,
+    required this.onAddMeter,
+    required this.onDelete,
+  });
+  final VoidCallback onConnect;
   final VoidCallback onAddMeter;
   final VoidCallback onDelete;
 
@@ -157,6 +165,14 @@ class _ConcentratorMenu extends StatelessWidget {
           color: AppColors.onSurfaceMuted, size: 18),
       color: AppColors.surfaceContainerHigh,
       itemBuilder: (_) => [
+        const PopupMenuItem(
+          value: 'connect',
+          child: Row(children: [
+            Icon(Icons.link_rounded, size: 16, color: AppColors.online),
+            SizedBox(width: 8),
+            Text('Connect'),
+          ]),
+        ),
         const PopupMenuItem(value: 'add', child: Text('Add Meter')),
         const PopupMenuItem(
           value: 'delete',
@@ -164,6 +180,7 @@ class _ConcentratorMenu extends StatelessWidget {
         ),
       ],
       onSelected: (v) {
+        if (v == 'connect') onConnect();
         if (v == 'add') onAddMeter();
         if (v == 'delete') onDelete();
       },

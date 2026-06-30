@@ -10,6 +10,7 @@ import 'package:uchochik/data/repositories/network_group_repository_impl.dart';
 import 'package:uchochik/domain/repositories/i_concentrator_repository.dart';
 import 'package:uchochik/domain/repositories/i_meter_repository.dart';
 import 'package:uchochik/domain/repositories/i_network_group_repository.dart';
+import 'package:uchochik/features/connection/bloc/connection_bloc.dart';
 import 'package:uchochik/features/network_tree/bloc/network_tree_bloc.dart';
 
 final getIt = GetIt.instance;
@@ -34,7 +35,10 @@ void setupGetIt() {
     MeterRepositoryImpl(getIt<MeterDatasource>()),
   );
 
-  // ── BLoCs (factory — new instance per route) ──────────────────────────────
+  // ── BLoCs ─────────────────────────────────────────────────────────────────
+  // Singleton: connection state persists across screens
+  getIt.registerSingleton(ConnectionBloc());
+
   getIt.registerFactory(
     () => NetworkTreeBloc(
       concentratorRepository: getIt<IConcentratorRepository>(),

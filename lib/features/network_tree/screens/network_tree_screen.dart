@@ -144,6 +144,7 @@ class _NetworkTreeView extends StatelessWidget {
           onToggle: () => bloc.add(ToggleGroupNode(groupNode.groupId)),
           onToggleConcentrator: (id) =>
               bloc.add(ToggleConcentratorNode(id)),
+          onConnectConcentrator: (id) => context.push('/connect/$id'),
           onAddConcentrator: () => context.push('/concentrator/new'),
           onAddMeter: (_) => context.push('/meter/new'),
           onDeleteConcentrator: (id) => _confirmDelete(
