@@ -1,4 +1,5 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:uchochik/core/dlms/dlms_profile.dart';
 import 'package:uchochik/core/dlms/dlms_session.dart';
 import 'package:uchochik/core/dlms/dlms_set.dart';
 import 'package:uchochik/domain/entities/meter.dart';
@@ -17,6 +18,7 @@ class ProgrammingBloc extends Bloc<ProgrammingEvent, ProgrammingState> {
   }) : super(const ProgrammingIdle()) {
     on<SetClockRequested>(_onSetClock);
     on<SetRelayRequested>(_onSetRelay);
+    on<ReadLoadProfileRequested>(_onReadLoadProfile);
   }
 
   final ConnectionBloc connectionBloc;
@@ -71,6 +73,72 @@ class ProgrammingBloc extends Bloc<ProgrammingEvent, ProgrammingState> {
         return 'Relay ${event.connect ? 'connected' : 'disconnected'}';
       },
     );
+  }
+
+  // ── Read Load Profile ─────────────────────────────────────────────────────
+
+  Future<void> _onReadLoadProfile(
+    ReadLoadProfileRequested event,
+    Emitter<ProgrammingState> emit,
+  ) async {
+    emit(ProgrammingInProgress(
+      operation: 'READ_${event.label.toUpperCase().replaceAll(' ', '_')}',
+      meter: event.meter,
+    ));
+
+    final connState = connectionBloc.state;
+    if (connState is! ConnectionActive) {
+      emit(ProgrammingFailure(
+        operation: event.label,
+        meter: event.meter,
+        error: 'No active connection',
+      ));
+      return;
+    }
+
+    final session =
+        DlmsSession(transport: connState.transport, meter: event.meter);
+    final start = DateTime.now();
+    try {
+      await session.associate();
+      final req = DlmsProfile.buildGetBuffer(obis: event.obis);
+      final resp = await session.transport.request(req);
+      final entries = DlmsProfile.parseBuffer(resp);
+      final durationMs = DateTime.now().difference(start).inMilliseconds;
+
+      await _saveLog(
+        meter: event.meter,
+        operation: 'READ_PROFILE',
+        status: OperationStatus.success,
+        durationMs: durationMs,
+      );
+
+      if (!isClosed) {
+        emit(ProgrammingProfileLoaded(
+          meter: event.meter,
+          label: event.label,
+          entries: entries,
+        ));
+      }
+    } catch (e) {
+      final durationMs = DateTime.now().difference(start).inMilliseconds;
+      await _saveLog(
+        meter: event.meter,
+        operation: 'READ_PROFILE',
+        status: OperationStatus.failure,
+        durationMs: durationMs,
+        errorMessage: e.toString(),
+      );
+      if (!isClosed) {
+        emit(ProgrammingFailure(
+          operation: event.label,
+          meter: event.meter,
+          error: e.toString(),
+        ));
+      }
+    } finally {
+      await session.release();
+    }
   }
 
   // ── Generic command runner ───────────────────────────────────────────────

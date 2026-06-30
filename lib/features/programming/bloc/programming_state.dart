@@ -38,3 +38,14 @@ final class ProgrammingFailure extends ProgrammingState {
   final Meter meter;
   final String error;
 }
+
+final class ProgrammingProfileLoaded extends ProgrammingState {
+  const ProgrammingProfileLoaded({
+    required this.meter,
+    required this.label,
+    required this.entries,
+  });
+  final Meter meter;
+  final String label;
+  final List<ProfileEntry> entries;
+}

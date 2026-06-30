@@ -13,5 +13,16 @@ final class SetClockRequested extends ProgrammingEvent {
 final class SetRelayRequested extends ProgrammingEvent {
   const SetRelayRequested({required this.meter, required this.connect});
   final Meter meter;
-  final bool connect; // true = connect relay, false = disconnect
+  final bool connect;
+}
+
+final class ReadLoadProfileRequested extends ProgrammingEvent {
+  const ReadLoadProfileRequested({
+    required this.meter,
+    required this.obis,
+    this.label = 'Load Profile',
+  });
+  final Meter meter;
+  final List<int> obis;
+  final String label;
 }

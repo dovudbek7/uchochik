@@ -277,12 +277,6 @@ class _ConnectedStats extends StatelessWidget {
               value: state.concentrator.serialNumber),
           _StatRow(label: 'Transport',
               value: state.concentrator.communicationType.displayName),
-          const SizedBox(height: 8),
-          const Text(
-            'DLMS session layer — Step 4',
-            style:
-                TextStyle(color: AppColors.onSurfaceMuted, fontSize: 12),
-          ),
         ],
       ),
     );

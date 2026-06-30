@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uchochik/app/theme/app_colors.dart';
 import 'package:uchochik/core/di/injection.dart';
+import 'package:uchochik/core/dlms/dlms_profile.dart';
 import 'package:uchochik/domain/entities/meter.dart';
 import 'package:uchochik/domain/repositories/i_operation_log_repository.dart';
 import 'package:uchochik/features/connection/bloc/connection_bloc.dart';
@@ -116,6 +117,44 @@ class _ProgrammingBody extends StatelessWidget {
                       ),
                 ),
               ]),
+              const SizedBox(height: 12),
+              _Section(title: 'Load Profile', children: [
+                _CommandTile(
+                  icon: Icons.show_chart_rounded,
+                  title: 'Read Load Profile',
+                  subtitle: '15-min interval energy data (class 7)',
+                  enabled: !busy,
+                  onTap: () => context.read<ProgrammingBloc>().add(
+                        ReadLoadProfileRequested(
+                          meter: meter,
+                          obis: obisLoadProfile,
+                          label: 'Load Profile',
+                        ),
+                      ),
+                ),
+                const Divider(height: 1, color: AppColors.border),
+                _CommandTile(
+                  icon: Icons.calendar_today_rounded,
+                  title: 'Read Daily Profile',
+                  subtitle: 'Daily energy totals (class 7)',
+                  enabled: !busy,
+                  onTap: () => context.read<ProgrammingBloc>().add(
+                        ReadLoadProfileRequested(
+                          meter: meter,
+                          obis: obisDailyProfile,
+                          label: 'Daily Profile',
+                        ),
+                      ),
+                ),
+              ]),
+              // Profile data table
+              if (state is ProgrammingProfileLoaded) ...[
+                const SizedBox(height: 16),
+                _ProfileTable(
+                  label: state.label,
+                  entries: state.entries,
+                ),
+              ],
             ],
           );
         },
@@ -192,6 +231,73 @@ class _CommandTile extends StatelessWidget {
       trailing: const Icon(Icons.chevron_right_rounded,
           color: AppColors.onSurfaceMuted, size: 18),
       onTap: enabled ? onTap : null,
+    );
+  }
+}
+
+class _ProfileTable extends StatelessWidget {
+  const _ProfileTable({required this.label, required this.entries});
+  final String label;
+  final List<ProfileEntry> entries;
+
+  @override
+  Widget build(BuildContext context) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 8),
+          child: Text(
+            '${label.toUpperCase()} — ${entries.length} ENTRIES',
+            style: const TextStyle(
+              color: AppColors.onSurfaceMuted,
+              fontSize: 11,
+              letterSpacing: 1.2,
+              fontWeight: FontWeight.w600,
+            ),
+          ),
+        ),
+        if (entries.isEmpty)
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainer,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: const Center(
+              child: Text('No entries in profile buffer',
+                  style: TextStyle(color: AppColors.onSurfaceMuted)),
+            ),
+          )
+        else
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainer,
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: AppColors.border),
+            ),
+            child: ListView.separated(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              itemCount: entries.length,
+              separatorBuilder: (_, __) =>
+                  const Divider(height: 1, color: AppColors.border),
+              itemBuilder: (_, i) => Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 12, vertical: 8),
+                child: Text(
+                  entries[i].toString(),
+                  style: const TextStyle(
+                    fontFamily: 'monospace',
+                    fontSize: 11,
+                    color: AppColors.onSurface,
+                  ),
+                ),
+              ),
+            ),
+          ),
+      ],
     );
   }
 }
