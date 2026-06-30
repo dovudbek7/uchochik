@@ -6,7 +6,9 @@ import 'package:uchochik/core/di/injection.dart';
 import 'package:uchochik/domain/entities/meter.dart';
 import 'package:uchochik/domain/enums/auth_level.dart';
 import 'package:uchochik/domain/repositories/i_meter_repository.dart';
+import 'package:uchochik/domain/repositories/i_operation_log_repository.dart';
 import 'package:uchochik/features/connection/bloc/connection_bloc.dart';
+import 'package:uchochik/features/logs/screens/logs_screen.dart';
 import 'package:uchochik/features/meter_reading/bloc/meter_reading_bloc.dart';
 import 'package:uchochik/features/meter_reading/widgets/readings_table.dart';
 
@@ -69,6 +71,13 @@ class _MeterDetailScreenState extends State<MeterDetailScreen>
           onPressed: () => context.pop(),
         ),
         title: Text(m.serialNumber),
+        actions: [
+          IconButton(
+            icon: const Icon(Icons.settings_remote_rounded),
+            tooltip: 'Program meter',
+            onPressed: () => context.push('/meter/${m.id}/program'),
+          ),
+        ],
         bottom: TabBar(
           controller: _tabs,
           labelColor: AppColors.primary,
@@ -136,7 +145,10 @@ class _ReadingsTab extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (_) => MeterReadingBloc(connectionBloc: getIt<ConnectionBloc>()),
+      create: (_) => MeterReadingBloc(
+        connectionBloc: getIt<ConnectionBloc>(),
+        logRepository: getIt<IOperationLogRepository>(),
+      ),
       child: _ReadingsTabBody(meter: meter),
     );
   }
@@ -317,12 +329,5 @@ class _LogsTab extends StatelessWidget {
   final Meter meter;
 
   @override
-  Widget build(BuildContext context) {
-    return const Center(
-      child: Text(
-        'Operation logs — Step 5',
-        style: TextStyle(color: AppColors.onSurfaceMuted),
-      ),
-    );
-  }
+  Widget build(BuildContext context) => MeterLogsTab(meterId: meter.id);
 }
