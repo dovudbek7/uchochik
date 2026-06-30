@@ -1,0 +1,2045 @@
+// **************************************************************************
+// IsarCollectionGenerator
+// **************************************************************************
+
+// coverage:ignore-file
+// ignore_for_file: duplicate_ignore, non_constant_identifier_names, constant_identifier_names, invalid_use_of_protected_member, unnecessary_cast, prefer_const_constructors, lines_longer_than_80_chars, require_trailing_commas, inference_failure_on_function_invocation, unnecessary_parenthesis, unnecessary_raw_strings, unnecessary_null_checks, join_return_with_assignment, prefer_final_locals, avoid_js_rounded_ints, avoid_positional_boolean_parameters, always_specify_types
+
+extension GetConcentratorModelCollection on Isar {
+  IsarCollection<ConcentratorModel> get concentratorModels => this.collection();
+}
+
+const ConcentratorModelSchema = CollectionSchema(
+  name: r'ConcentratorModel',
+  id: 1292763420506409283,
+  properties: {
+    r'baudRate': PropertySchema(
+      id: 0,
+      name: r'baudRate',
+      type: IsarType.long,
+    ),
+    r'communicationType': PropertySchema(
+      id: 1,
+      name: r'communicationType',
+      type: IsarType.byte,
+      enumMap: _ConcentratorModelcommunicationTypeEnumValueMap,
+    ),
+    r'createdAt': PropertySchema(
+      id: 2,
+      name: r'createdAt',
+      type: IsarType.dateTime,
+    ),
+    r'description': PropertySchema(
+      id: 3,
+      name: r'description',
+      type: IsarType.string,
+    ),
+    r'ipAddress': PropertySchema(
+      id: 4,
+      name: r'ipAddress',
+      type: IsarType.string,
+    ),
+    r'name': PropertySchema(
+      id: 5,
+      name: r'name',
+      type: IsarType.string,
+    ),
+    r'networkGroupId': PropertySchema(
+      id: 6,
+      name: r'networkGroupId',
+      type: IsarType.long,
+    ),
+    r'port': PropertySchema(
+      id: 7,
+      name: r'port',
+      type: IsarType.long,
+    ),
+    r'serialNumber': PropertySchema(
+      id: 8,
+      name: r'serialNumber',
+      type: IsarType.string,
+    ),
+    r'serialPortDevice': PropertySchema(
+      id: 9,
+      name: r'serialPortDevice',
+      type: IsarType.string,
+    ),
+    r'updatedAt': PropertySchema(
+      id: 10,
+      name: r'updatedAt',
+      type: IsarType.dateTime,
+    )
+  },
+  estimateSize: _concentratorModelEstimateSize,
+  serialize: _concentratorModelSerialize,
+  deserialize: _concentratorModelDeserialize,
+  deserializeProp: _concentratorModelDeserializeProp,
+  idName: r'id',
+  indexes: {},
+  links: {
+    r'meters': LinkSchema(
+      id: -8056637075647796867,
+      name: r'meters',
+      target: r'MeterModel',
+      single: false,
+    )
+  },
+  embeddedSchemas: {},
+  getId: _concentratorModelGetId,
+  getLinks: _concentratorModelGetLinks,
+  attach: _concentratorModelAttach,
+  version: '3.1.0+1',
+);
+
+int _concentratorModelEstimateSize(
+  ConcentratorModel object,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  var bytesCount = offsets.last;
+  {
+    final value = object.description;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  {
+    final value = object.ipAddress;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  bytesCount += 3 + object.name.length * 3;
+  bytesCount += 3 + object.serialNumber.length * 3;
+  {
+    final value = object.serialPortDevice;
+    if (value != null) {
+      bytesCount += 3 + value.length * 3;
+    }
+  }
+  return bytesCount;
+}
+
+void _concentratorModelSerialize(
+  ConcentratorModel object,
+  IsarWriter writer,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  writer.writeLong(offsets[0], object.baudRate);
+  writer.writeByte(offsets[1], object.communicationType.index);
+  writer.writeDateTime(offsets[2], object.createdAt);
+  writer.writeString(offsets[3], object.description);
+  writer.writeString(offsets[4], object.ipAddress);
+  writer.writeString(offsets[5], object.name);
+  writer.writeLong(offsets[6], object.networkGroupId);
+  writer.writeLong(offsets[7], object.port);
+  writer.writeString(offsets[8], object.serialNumber);
+  writer.writeString(offsets[9], object.serialPortDevice);
+  writer.writeDateTime(offsets[10], object.updatedAt);
+}
+
+ConcentratorModel _concentratorModelDeserialize(
+  Id id,
+  IsarReader reader,
+  List<int> offsets,
+  Map<Type, List<int>> allOffsets,
+) {
+  final object = ConcentratorModel();
+  object.baudRate = reader.readLongOrNull(offsets[0]);
+  object.communicationType = _ConcentratorModelcommunicationTypeValueEnumMap[
+          reader.readByteOrNull(offsets[1])] ??
+      CommunicationType.tcpIp;
+  object.createdAt = reader.readDateTime(offsets[2]);
+  object.description = reader.readStringOrNull(offsets[3]);
+  object.id = id;
+  object.ipAddress = reader.readStringOrNull(offsets[4]);
+  object.name = reader.readString(offsets[5]);
+  object.networkGroupId = reader.readLongOrNull(offsets[6]);
+  object.port = reader.readLongOrNull(offsets[7]);
+  object.serialNumber = reader.readString(offsets[8]);
+  object.serialPortDevice = reader.readStringOrNull(offsets[9]);
+  object.updatedAt = reader.readDateTime(offsets[10]);
+  return object;
+}
+
+P _concentratorModelDeserializeProp<P>(
+  IsarReader reader,
+  int propertyId,
+  int offset,
+  Map<Type, List<int>> allOffsets,
+) {
+  switch (propertyId) {
+    case 0:
+      return (reader.readLongOrNull(offset)) as P;
+    case 1:
+      return (_ConcentratorModelcommunicationTypeValueEnumMap[
+              reader.readByteOrNull(offset)] ??
+          CommunicationType.tcpIp) as P;
+    case 2:
+      return (reader.readDateTime(offset)) as P;
+    case 3:
+      return (reader.readStringOrNull(offset)) as P;
+    case 4:
+      return (reader.readStringOrNull(offset)) as P;
+    case 5:
+      return (reader.readString(offset)) as P;
+    case 6:
+      return (reader.readLongOrNull(offset)) as P;
+    case 7:
+      return (reader.readLongOrNull(offset)) as P;
+    case 8:
+      return (reader.readString(offset)) as P;
+    case 9:
+      return (reader.readStringOrNull(offset)) as P;
+    case 10:
+      return (reader.readDateTime(offset)) as P;
+    default:
+      throw IsarError('Unknown property with id $propertyId');
+  }
+}
+
+const _ConcentratorModelcommunicationTypeEnumValueMap = {
+  'tcpIp': 0,
+  'usbSerial': 1,
+};
+const _ConcentratorModelcommunicationTypeValueEnumMap = {
+  0: CommunicationType.tcpIp,
+  1: CommunicationType.usbSerial,
+};
+
+Id _concentratorModelGetId(ConcentratorModel object) {
+  return object.id;
+}
+
+List<IsarLinkBase<dynamic>> _concentratorModelGetLinks(
+    ConcentratorModel object) {
+  return [object.meters];
+}
+
+void _concentratorModelAttach(
+    IsarCollection<dynamic> col, Id id, ConcentratorModel object) {
+  object.id = id;
+  object.meters.attach(col, col.isar.collection<MeterModel>(), r'meters', id);
+}
+
+extension ConcentratorModelQueryWhereSort
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QWhere> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhere> anyId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(const IdWhereClause.any());
+    });
+  }
+}
+
+extension ConcentratorModelQueryWhere
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QWhereClause> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhereClause>
+      idEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: id,
+        upper: id,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhereClause>
+      idNotEqualTo(Id id) {
+    return QueryBuilder.apply(this, (query) {
+      if (query.whereSort == Sort.asc) {
+        return query
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            )
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            );
+      } else {
+        return query
+            .addWhereClause(
+              IdWhereClause.greaterThan(lower: id, includeLower: false),
+            )
+            .addWhereClause(
+              IdWhereClause.lessThan(upper: id, includeUpper: false),
+            );
+      }
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhereClause>
+      idGreaterThan(Id id, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.greaterThan(lower: id, includeLower: include),
+      );
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhereClause>
+      idLessThan(Id id, {bool include = false}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(
+        IdWhereClause.lessThan(upper: id, includeUpper: include),
+      );
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterWhereClause>
+      idBetween(
+    Id lowerId,
+    Id upperId, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addWhereClause(IdWhereClause.between(
+        lower: lowerId,
+        includeLower: includeLower,
+        upper: upperId,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension ConcentratorModelQueryFilter
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QFilterCondition> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'baudRate',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'baudRate',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'baudRate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'baudRate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'baudRate',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      baudRateBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'baudRate',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      communicationTypeEqualTo(CommunicationType value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'communicationType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      communicationTypeGreaterThan(
+    CommunicationType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'communicationType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      communicationTypeLessThan(
+    CommunicationType value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'communicationType',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      communicationTypeBetween(
+    CommunicationType lower,
+    CommunicationType upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'communicationType',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      createdAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      createdAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      createdAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'createdAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      createdAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'createdAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'description',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'description',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'description',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'description',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      descriptionIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'description',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      idEqualTo(Id value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      idGreaterThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      idLessThan(
+    Id value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'id',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      idBetween(
+    Id lower,
+    Id upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'id',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'ipAddress',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'ipAddress',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'ipAddress',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'ipAddress',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'ipAddress',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'ipAddress',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      ipAddressIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'ipAddress',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'name',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'name',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'name',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      nameIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'name',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'networkGroupId',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'networkGroupId',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'networkGroupId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'networkGroupId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'networkGroupId',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      networkGroupIdBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'networkGroupId',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'port',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'port',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portEqualTo(int? value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'port',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portGreaterThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'port',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portLessThan(
+    int? value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'port',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      portBetween(
+    int? lower,
+    int? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'port',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberEqualTo(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberGreaterThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberLessThan(
+    String value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberBetween(
+    String lower,
+    String upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'serialNumber',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'serialNumber',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'serialNumber',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serialNumber',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialNumberIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'serialNumber',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceIsNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNull(
+        property: r'serialPortDevice',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceIsNotNull() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(const FilterCondition.isNotNull(
+        property: r'serialPortDevice',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceEqualTo(
+    String? value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceGreaterThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceLessThan(
+    String? value, {
+    bool include = false,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceBetween(
+    String? lower,
+    String? upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'serialPortDevice',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceStartsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.startsWith(
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceEndsWith(
+    String value, {
+    bool caseSensitive = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.endsWith(
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceContains(String value, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.contains(
+        property: r'serialPortDevice',
+        value: value,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceMatches(String pattern, {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.matches(
+        property: r'serialPortDevice',
+        wildcard: pattern,
+        caseSensitive: caseSensitive,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'serialPortDevice',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      serialPortDeviceIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        property: r'serialPortDevice',
+        value: '',
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      updatedAtEqualTo(DateTime value) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.equalTo(
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      updatedAtGreaterThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.greaterThan(
+        include: include,
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      updatedAtLessThan(
+    DateTime value, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.lessThan(
+        include: include,
+        property: r'updatedAt',
+        value: value,
+      ));
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      updatedAtBetween(
+    DateTime lower,
+    DateTime upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addFilterCondition(FilterCondition.between(
+        property: r'updatedAt',
+        lower: lower,
+        includeLower: includeLower,
+        upper: upper,
+        includeUpper: includeUpper,
+      ));
+    });
+  }
+}
+
+extension ConcentratorModelQueryObject
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QFilterCondition> {}
+
+extension ConcentratorModelQueryLinks
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QFilterCondition> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      meters(FilterQuery<MeterModel> q) {
+    return QueryBuilder.apply(this, (query) {
+      return query.link(q, r'meters');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersLengthEqualTo(int length) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meters', length, true, length, true);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersIsEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meters', 0, true, 0, true);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersIsNotEmpty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meters', 0, false, 999999, true);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersLengthLessThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meters', 0, true, length, include);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersLengthGreaterThan(
+    int length, {
+    bool include = false,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(r'meters', length, include, 999999, true);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterFilterCondition>
+      metersLengthBetween(
+    int lower,
+    int upper, {
+    bool includeLower = true,
+    bool includeUpper = true,
+  }) {
+    return QueryBuilder.apply(this, (query) {
+      return query.linkLength(
+          r'meters', lower, includeLower, upper, includeUpper);
+    });
+  }
+}
+
+extension ConcentratorModelQuerySortBy
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QSortBy> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByBaudRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'baudRate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByBaudRateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'baudRate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByCommunicationType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'communicationType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByCommunicationTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'communicationType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByIpAddress() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ipAddress', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByIpAddressDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ipAddress', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByNetworkGroupId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'networkGroupId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByNetworkGroupIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'networkGroupId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByPort() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'port', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByPortDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'port', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortBySerialNumber() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialNumber', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortBySerialNumberDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialNumber', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortBySerialPortDevice() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialPortDevice', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortBySerialPortDeviceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialPortDevice', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      sortByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+}
+
+extension ConcentratorModelQuerySortThenBy
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QSortThenBy> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByBaudRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'baudRate', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByBaudRateDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'baudRate', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByCommunicationType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'communicationType', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByCommunicationTypeDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'communicationType', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByCreatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'createdAt', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByDescription() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByDescriptionDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'description', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy> thenById() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'id', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByIpAddress() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ipAddress', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByIpAddressDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'ipAddress', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByName() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByNameDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'name', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByNetworkGroupId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'networkGroupId', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByNetworkGroupIdDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'networkGroupId', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByPort() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'port', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByPortDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'port', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenBySerialNumber() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialNumber', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenBySerialNumberDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialNumber', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenBySerialPortDevice() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialPortDevice', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenBySerialPortDeviceDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'serialPortDevice', Sort.desc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.asc);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QAfterSortBy>
+      thenByUpdatedAtDesc() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addSortBy(r'updatedAt', Sort.desc);
+    });
+  }
+}
+
+extension ConcentratorModelQueryWhereDistinct
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct> {
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByBaudRate() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'baudRate');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByCommunicationType() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'communicationType');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByCreatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'createdAt');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByDescription({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'description', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByIpAddress({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'ipAddress', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct> distinctByName(
+      {bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'name', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByNetworkGroupId() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'networkGroupId');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByPort() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'port');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctBySerialNumber({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'serialNumber', caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctBySerialPortDevice({bool caseSensitive = true}) {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'serialPortDevice',
+          caseSensitive: caseSensitive);
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, ConcentratorModel, QDistinct>
+      distinctByUpdatedAt() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addDistinctBy(r'updatedAt');
+    });
+  }
+}
+
+extension ConcentratorModelQueryProperty
+    on QueryBuilder<ConcentratorModel, ConcentratorModel, QQueryProperty> {
+  QueryBuilder<ConcentratorModel, int, QQueryOperations> idProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'id');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, int?, QQueryOperations> baudRateProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'baudRate');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, CommunicationType, QQueryOperations>
+      communicationTypeProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'communicationType');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, DateTime, QQueryOperations>
+      createdAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'createdAt');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, String?, QQueryOperations>
+      descriptionProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'description');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, String?, QQueryOperations>
+      ipAddressProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'ipAddress');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, String, QQueryOperations> nameProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'name');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, int?, QQueryOperations>
+      networkGroupIdProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'networkGroupId');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, int?, QQueryOperations> portProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'port');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, String, QQueryOperations>
+      serialNumberProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'serialNumber');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, String?, QQueryOperations>
+      serialPortDeviceProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'serialPortDevice');
+    });
+  }
+
+  QueryBuilder<ConcentratorModel, DateTime, QQueryOperations>
+      updatedAtProperty() {
+    return QueryBuilder.apply(this, (query) {
+      return query.addPropertyName(r'updatedAt');
+    });
+  }
+}
