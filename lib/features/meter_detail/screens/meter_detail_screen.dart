@@ -1,10 +1,14 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:go_router/go_router.dart';
 import 'package:uchochik/app/theme/app_colors.dart';
 import 'package:uchochik/core/di/injection.dart';
 import 'package:uchochik/domain/entities/meter.dart';
 import 'package:uchochik/domain/enums/auth_level.dart';
 import 'package:uchochik/domain/repositories/i_meter_repository.dart';
+import 'package:uchochik/features/connection/bloc/connection_bloc.dart';
+import 'package:uchochik/features/meter_reading/bloc/meter_reading_bloc.dart';
+import 'package:uchochik/features/meter_reading/widgets/readings_table.dart';
 
 class MeterDetailScreen extends StatefulWidget {
   const MeterDetailScreen({super.key, required this.meterId});
@@ -131,45 +135,140 @@ class _ReadingsTab extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ListView(
-      padding: const EdgeInsets.all(20),
-      children: [
-        _InfoRow(label: 'Account', value: meter.accountNumber),
-        _InfoRow(label: 'Serial', value: meter.serialNumber),
-        _InfoRow(label: 'Type', value: meter.meterType.displayName),
-        _InfoRow(label: 'Last read',
-            value: meter.lastReadAt?.toLocal().toString() ?? 'Never'),
-        const Divider(height: 32),
-        // Placeholder — Step 4 will add DLMS GET for OBIS registers
-        Container(
-          padding: const EdgeInsets.all(24),
-          decoration: BoxDecoration(
-            color: AppColors.surfaceContainer,
-            borderRadius: BorderRadius.circular(12),
-            border: Border.all(color: AppColors.border),
-          ),
-          child: const Column(
+    return BlocProvider(
+      create: (_) => MeterReadingBloc(connectionBloc: getIt<ConnectionBloc>()),
+      child: _ReadingsTabBody(meter: meter),
+    );
+  }
+}
+
+class _ReadingsTabBody extends StatelessWidget {
+  const _ReadingsTabBody({required this.meter});
+  final Meter meter;
+
+  @override
+  Widget build(BuildContext context) {
+    return BlocBuilder<MeterReadingBloc, MeterReadingState>(
+      builder: (context, state) {
+        return Column(
+          children: [
+            // Header info strip
+            Container(
+              color: AppColors.surfaceContainer,
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(meter.accountNumber,
+                            style: const TextStyle(
+                                color: AppColors.onSurface,
+                                fontWeight: FontWeight.w600,
+                                fontSize: 14)),
+                        Text(
+                          state is MeterReadingSuccess
+                              ? 'Read at ${_fmt(state.readAt)}'
+                              : meter.lastReadAt != null
+                                  ? 'Last read ${_fmt(meter.lastReadAt!)}'
+                                  : 'Never read',
+                          style: const TextStyle(
+                              color: AppColors.onSurfaceMuted, fontSize: 12),
+                        ),
+                      ],
+                    ),
+                  ),
+                  _ReadButton(meter: meter, state: state),
+                ],
+              ),
+            ),
+            // Body
+            Expanded(child: _body(context, state)),
+          ],
+        );
+      },
+    );
+  }
+
+  Widget _body(BuildContext context, MeterReadingState state) {
+    return switch (state) {
+      MeterReadingIdle() => _emptyPlaceholder(),
+      MeterReadingInProgress() => const Center(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
             children: [
-              Icon(Icons.cable_rounded,
-                  color: AppColors.onSurfaceMuted, size: 40),
-              SizedBox(height: 12),
-              Text(
-                'Connect to read registers',
-                style: TextStyle(
-                    color: AppColors.onSurface,
-                    fontWeight: FontWeight.w600,
-                    fontSize: 15),
-              ),
-              SizedBox(height: 6),
-              Text(
-                'Transport layer coming in Step 3.',
-                style:
-                    TextStyle(color: AppColors.onSurfaceMuted, fontSize: 13),
-              ),
+              CircularProgressIndicator(color: AppColors.primary),
+              SizedBox(height: 16),
+              Text('Reading meter…',
+                  style: TextStyle(color: AppColors.onSurfaceMuted)),
             ],
           ),
         ),
-      ],
+      MeterReadingSuccess(readings: final r) => ReadingsTable(readings: r),
+      MeterReadingFailure(error: final e) => Center(
+          child: Padding(
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.error_outline_rounded,
+                    color: AppColors.error, size: 40),
+                const SizedBox(height: 12),
+                Text(e,
+                    textAlign: TextAlign.center,
+                    style: const TextStyle(
+                        color: AppColors.onSurfaceMuted, fontSize: 13)),
+              ],
+            ),
+          ),
+        ),
+    };
+  }
+
+  Widget _emptyPlaceholder() => const Center(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(Icons.bolt_rounded, color: AppColors.onSurfaceMuted, size: 48),
+            SizedBox(height: 12),
+            Text('Tap Read to fetch registers',
+                style: TextStyle(color: AppColors.onSurfaceMuted)),
+          ],
+        ),
+      );
+
+  String _fmt(DateTime dt) {
+    final l = dt.toLocal();
+    return '${l.hour.toString().padLeft(2, '0')}:${l.minute.toString().padLeft(2, '0')} '
+        '${l.day}/${l.month}/${l.year}';
+  }
+}
+
+class _ReadButton extends StatelessWidget {
+  const _ReadButton({required this.meter, required this.state});
+  final Meter meter;
+  final MeterReadingState state;
+
+  @override
+  Widget build(BuildContext context) {
+    final bloc = context.read<MeterReadingBloc>();
+    final inProgress = state is MeterReadingInProgress;
+
+    return FilledButton.icon(
+      style: FilledButton.styleFrom(
+        backgroundColor: inProgress ? AppColors.error : AppColors.primary,
+        foregroundColor: Colors.black,
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 10),
+        textStyle:
+            const TextStyle(fontSize: 13, fontWeight: FontWeight.w600),
+      ),
+      onPressed: inProgress
+          ? () => bloc.add(const ReadingCancelled())
+          : () => bloc.add(ReadingStarted(meter: meter)),
+      icon: Icon(inProgress ? Icons.stop_rounded : Icons.refresh_rounded,
+          size: 18),
+      label: Text(inProgress ? 'Stop' : 'Read'),
     );
   }
 }
