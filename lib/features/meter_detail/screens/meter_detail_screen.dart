@@ -73,6 +73,11 @@ class _MeterDetailScreenState extends State<MeterDetailScreen>
         title: Text(m.serialNumber),
         actions: [
           IconButton(
+            icon: const Icon(Icons.edit_rounded),
+            tooltip: 'Edit meter',
+            onPressed: () => context.push('/meter/${m.id}/edit'),
+          ),
+          IconButton(
             icon: const Icon(Icons.settings_remote_rounded),
             tooltip: 'Program meter',
             onPressed: () => context.push('/meter/${m.id}/program'),
