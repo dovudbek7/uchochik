@@ -196,7 +196,9 @@ abstract final class DlmsDecoder {
 
     if (tag == DlmsTag.int64 || tag == DlmsTag.uint64) {
       var v = 0;
-      for (var i = 1; i <= 8; i++) v = (v << 8) | data[offset + i];
+      for (var i = 1; i <= 8; i++) {
+        v = (v << 8) | data[offset + i];
+      }
       return (DlmsInt(v), 9);
     }
 

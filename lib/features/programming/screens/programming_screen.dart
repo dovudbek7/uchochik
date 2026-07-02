@@ -67,7 +67,7 @@ class _ProgrammingBody extends StatelessWidget {
             padding: const EdgeInsets.all(16),
             children: [
               if (busy) ...[
-                LinearProgressIndicator(
+                const LinearProgressIndicator(
                   color: AppColors.primary,
                   backgroundColor: AppColors.surfaceContainer,
                 ),

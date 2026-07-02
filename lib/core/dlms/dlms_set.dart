@@ -53,7 +53,7 @@ abstract final class DlmsSet {
       );
     }
     if (bytes[1] != 0x01) {
-      throw DlmsSetException('Only SET-Response-Normal supported');
+      throw const DlmsSetException('Only SET-Response-Normal supported');
     }
     // bytes[2] = invoke-id, bytes[3] = result
     final result = bytes[3];
