@@ -5,6 +5,7 @@ import 'package:uchochik/app/theme/app_colors.dart';
 import 'package:uchochik/core/di/injection.dart';
 import 'package:uchochik/features/network_tree/bloc/network_tree_bloc.dart';
 import 'package:uchochik/features/network_tree/widgets/group_node_tile.dart';
+import 'package:uchochik/features/usb_detection/widgets/usb_detection_banner.dart';
 
 class NetworkTreeScreen extends StatelessWidget {
   const NetworkTreeScreen({super.key});
@@ -88,7 +89,12 @@ class _NetworkTreeView extends StatelessWidget {
               ),
             ],
           ),
-          body: _buildBody(context, state, bloc),
+          body: Column(
+            children: [
+              const UsbDetectionBanner(),
+              Expanded(child: _buildBody(context, state, bloc)),
+            ],
+          ),
           floatingActionButton: FloatingActionButton(
             onPressed: () => context.push('/concentrator/new'),
             tooltip: 'Add Concentrator',

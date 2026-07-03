@@ -14,6 +14,7 @@ import 'package:uchochik/domain/repositories/i_network_group_repository.dart';
 import 'package:uchochik/domain/repositories/i_operation_log_repository.dart';
 import 'package:uchochik/features/connection/bloc/connection_bloc.dart';
 import 'package:uchochik/features/network_tree/bloc/network_tree_bloc.dart';
+import 'package:uchochik/features/usb_detection/cubit/usb_detection_cubit.dart';
 
 final getIt = GetIt.instance;
 
@@ -43,6 +44,9 @@ void setupGetIt() {
   // ── BLoCs ─────────────────────────────────────────────────────────────────
   // Singleton: connection state persists across screens
   getIt.registerSingleton(ConnectionBloc());
+
+  // Singleton: USB attach/detach listening starts at app launch
+  getIt.registerSingleton(UsbDetectionCubit());
 
   getIt.registerFactory(
     () => NetworkTreeBloc(
